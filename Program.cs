@@ -348,13 +348,8 @@ namespace ConsoleApp2
             static void DrawGrid(SquareGrid grid, AStarSearch astar)
             {
                 Vector2f position = new Vector2f(0.0f, 0.0f);
-                RectangleShape rectangleShapeBlue = new RectangleShape(new Vector2f(CellSize, CellSize));
-                rectangleShapeBlue.FillColor = Color.Blue;
+             
 
-
-                Vector2f position2 = new Vector2f(0.0f, 0.0f);
-                RectangleShape rectangleStartStop = new RectangleShape(new Vector2f(CellSize, CellSize));
-                rectangleStartStop.FillColor = Color.Red;
 
 
                 for (var y = 0; y < 10; y++)
@@ -399,9 +394,34 @@ namespace ConsoleApp2
                         }
                         else if ((astar.start == testLocation) || (astar.end == testLocation))
                         {
-                            position.X = testLocation.x * CellSize;
-                            position.Y = testLocation.y * CellSize;
-                            rectangleStartStop.Position = position;
+
+                            SceneNode2D sceneNode2D = scene.GetSceneNode(testLocation.name);
+                            if (sceneNode2D==null)
+                            {
+                                Vector2f position2 = new Vector2f(0.0f, 0.0f);
+                                RectangleShape rectangleStartStop = new RectangleShape(new Vector2f(CellSize, CellSize));
+                                rectangleStartStop.FillColor = Color.Red;
+
+                                sceneNode2D = new SceneNode2D();
+                                Node2D node2D = new RectangleNode(rectangleStartStop);
+                                sceneNode2D.entity = node2D;
+                                sceneNode2D.name = testLocation.name;
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                                scene.Nodes.Add(sceneNode2D);
+
+                            }
+                            else
+                            {
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                            }
+
+
 
                             //rectangleStartStop.Draw(renderTexture, renderStates);
                         }
@@ -423,9 +443,39 @@ namespace ConsoleApp2
                         }
                         else
                         {
-                            position.X = testLocation.x * CellSize;
-                            position.Y = testLocation.y * CellSize;
-                            rectangleShapeBlue.Position = position;
+                            SceneNode2D sceneNode2D = scene.GetSceneNode(testLocation.name);
+                            if (sceneNode2D == null)
+                            {
+                                Vector2f position2 = new Vector2f(0.0f, 0.0f);
+                                RectangleShape rectangleShapeBlue = new RectangleShape(new Vector2f(CellSize, CellSize));
+                                rectangleShapeBlue.FillColor = Color.Blue;
+                                
+
+                                sceneNode2D = new SceneNode2D();
+                                Node2D node2D = new RectangleNode(rectangleShapeBlue);
+                                sceneNode2D.entity = node2D;
+                                sceneNode2D.name = testLocation.name;
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                                scene.Nodes.Add(sceneNode2D);
+
+                            }
+                            else
+                            {
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                            }
+                           // RectangleShape rectangleShapeBlue = new RectangleShape(new Vector2f(CellSize, CellSize));
+                         //   rectangleShapeBlue.FillColor = Color.Blue;
+
+
+                           // position.X = testLocation.x * CellSize;
+                           // position.Y = testLocation.y * CellSize;
+                          //  rectangleShapeBlue.Position = position;
                             //rectangleShapeBlue.Draw(renderTexture, renderStates);
                             //Console.Write("* ");
                         }
@@ -519,7 +569,7 @@ namespace ConsoleApp2
                                         new Location(8, 5));
 
 
-
+            sprite = new Sprite();
 
             while (window.IsOpen)
             {
@@ -537,27 +587,21 @@ namespace ConsoleApp2
                 }
                 else
                 {
-                    renderTexture.Clear();
-                    /* for (int i = 0; i < 50; i++)
-                         for (int j = 0; j < 40; j++)
-                         {
-                             position.X = 50.0f + i * 10.0f;
-                             position.Y = 100.0f + j * 10.0f;
-                             rectangleShapeBlue.Position = position;
-                             rectangleShapeBlue.Draw(renderTexture, renderStates);
-                         }*/
-                    DrawGrid(grid, astar);
-
-                    scene.Draw(renderTexture,renderStates);
-
-                    renderTexture.Display();
                     Thread.Sleep(1);
                     continue;
                 }
 
 
+                renderTexture.Clear();
 
-                sprite = new Sprite(renderTexture.Texture);
+                DrawGrid(grid, astar);
+
+                scene.Draw(renderTexture, renderStates);
+
+                renderTexture.Display();
+
+
+                sprite.Texture = renderTexture.Texture;
 
                 //currentTime = clock.Restart().AsSeconds();
                 // angle += angleSpeed * currentTime;
@@ -568,12 +612,13 @@ namespace ConsoleApp2
 
                 window.Draw(sprite);
                 window.Display();
-                sprite.Dispose();
+               
             }
             window.Close();
             window.Dispose();
             renderTexture.Dispose();
             rectangleShapeBlue.Dispose();
+            sprite.Dispose();
             text.Dispose();
             clock.Dispose();
         }
