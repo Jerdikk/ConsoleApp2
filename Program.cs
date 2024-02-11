@@ -224,6 +224,8 @@ namespace ConsoleApp2
 
     public interface Node2D : Drawable
     {
+        public string getName();
+        public void setName(string name);
         public Vector2f getPosition();
         public void setPosition(Vector2f position);
 
@@ -231,6 +233,7 @@ namespace ConsoleApp2
     public class TextNode : Node2D
     {
         Text text1;
+        string name;
 
         public TextNode(Text text1)
         {
@@ -242,9 +245,19 @@ namespace ConsoleApp2
             text1?.Draw(target, states);
         }
 
+        public string getName()
+        {
+            return name;
+        }
+
         public Vector2f getPosition()
         {
             return text1.Position;
+        }
+
+        public void setName(string name)
+        {
+            this.name = name;
         }
 
         public void setPosition(Vector2f position)
@@ -255,6 +268,7 @@ namespace ConsoleApp2
     public class RectangleNode : Node2D
     {
         RectangleShape shape;
+        string name;
 
         public RectangleNode(RectangleShape shape)
         {
@@ -266,9 +280,19 @@ namespace ConsoleApp2
             shape.Draw(target, states);
         }
 
+        public string getName()
+        {
+            return name;
+        }
+
         public Vector2f getPosition()
         {
             return shape.Position;
+        }
+
+        public void setName(string name)
+        {
+            this.name = name;
         }
 
         public void setPosition(Vector2f position)
@@ -303,6 +327,7 @@ namespace ConsoleApp2
 
         public void Draw(RenderTarget target, RenderStates states)
         {
+            entity.Draw(target, states);
             if ((children != null) && (children.Count > 0))
             {
                 foreach (var next in children)
@@ -310,7 +335,6 @@ namespace ConsoleApp2
                     next.Draw(target, states);
                 }
             }
-            entity.Draw(target, states);
         }
     }
 
@@ -395,6 +419,7 @@ namespace ConsoleApp2
 
                                 sceneNode2D = new SceneNode2D();
                                 Node2D node2D = new RectangleNode(rectangleShapeWall);
+                                node2D.setName("wall" + testLocation.name);
                                 sceneNode2D.entity = node2D;
                                 sceneNode2D.name = testLocation.name;
                                 position.X = testLocation.x * CellSize;
@@ -413,7 +438,37 @@ namespace ConsoleApp2
                             // rectangleShapeWall.Draw(renderTexture, renderStates);
                             //  Console.Write("##");
                         }
-                        else if ((astar.start == testLocation) || (astar.end == testLocation))
+                        else if (grid.forests.Contains(testLocation))
+                        {
+                            SceneNode2D sceneNode2D = scene.GetSceneNode(testLocation.name);
+                            if (sceneNode2D == null)
+                            {
+                                Vector2f position1 = new Vector2f(0.0f, 0.0f);
+                                RectangleShape rectangleShapeWall = new RectangleShape(new Vector2f(CellSize, CellSize));
+                                rectangleShapeWall.FillColor = Color.Green;
+
+                                sceneNode2D = new SceneNode2D();
+                                Node2D node2D = new RectangleNode(rectangleShapeWall);
+                                node2D.setName("forest" + testLocation.name);
+                                sceneNode2D.entity = node2D;
+                                sceneNode2D.name = testLocation.name;
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                                scene.Nodes.Add(sceneNode2D);
+                            }
+                            else
+                            {
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                            }
+
+                        }
+
+                        if ((astar.start == testLocation) || (astar.end == testLocation))
                         {
 
                             SceneNode2D sceneNode2D = scene.GetSceneNode(testLocation.name);
@@ -425,6 +480,10 @@ namespace ConsoleApp2
 
                                 sceneNode2D = new SceneNode2D();
                                 Node2D node2D = new RectangleNode(rectangleStartStop);
+                                if (astar.start == testLocation)
+                                    node2D.setName("start" + testLocation.name);
+                                else
+                                    node2D.setName("end" + testLocation.name);
                                 sceneNode2D.entity = node2D;
                                 sceneNode2D.name = testLocation.name;
                                 position.X = testLocation.x * CellSize;
@@ -458,6 +517,7 @@ namespace ConsoleApp2
 
                                 sceneNode2D = new SceneNode2D();
                                 Node2D node2D = new TextNode(textt);
+                                node2D.setName("right" + testLocation.name);
                                 sceneNode2D.entity = node2D;
                                 sceneNode2D.name = testLocation.name;
                                 position.X = testLocation.x * CellSize;
@@ -469,9 +529,34 @@ namespace ConsoleApp2
                             }
                             else
                             {
-                                position.X = testLocation.x * CellSize;
-                                position.Y = testLocation.y * CellSize;
-                                sceneNode2D.entity.setPosition(position);
+                                if (sceneNode2D.entity.getName().Contains("right"))
+                                {
+                                    position.X = testLocation.x * CellSize;
+                                    position.Y = testLocation.y * CellSize;
+                                    sceneNode2D.entity.setPosition(position);
+                                }
+                                else
+                                {
+                                    if (sceneNode2D.children == null)
+                                    {
+                                        Vector2f position2 = new Vector2f(0.0f, 0.0f);
+                                        Text textt = new Text("R", font);
+                                        textt.FillColor = Color.Red;
+                                        textt.CharacterSize = 20;
+
+                                        SceneNode2D sceneNode2D1 = new SceneNode2D();
+                                        Node2D node2D = new TextNode(textt);
+                                        node2D.setName("right" + testLocation.name);
+                                        sceneNode2D1.entity = node2D;
+                                        sceneNode2D1.name = testLocation.name;
+                                        position.X = testLocation.x * CellSize;
+                                        position.Y = testLocation.y * CellSize;
+                                        sceneNode2D1.entity.setPosition(position);
+
+                                        sceneNode2D.children = new List<SceneNode2D>();
+                                        sceneNode2D.children.Add(sceneNode2D1);
+                                    }
+                                }
 
                             }
                         }
@@ -488,6 +573,7 @@ namespace ConsoleApp2
 
                                 sceneNode2D = new SceneNode2D();
                                 Node2D node2D = new TextNode(textt);
+                                node2D.setName("left" + testLocation.name);
                                 sceneNode2D.entity = node2D;
                                 sceneNode2D.name = testLocation.name;
                                 position.X = testLocation.x * CellSize;
@@ -499,10 +585,34 @@ namespace ConsoleApp2
                             }
                             else
                             {
-                                position.X = testLocation.x * CellSize;
-                                position.Y = testLocation.y * CellSize;
-                                sceneNode2D.entity.setPosition(position);
+                                if (sceneNode2D.entity.getName().Contains("left"))
+                                {
+                                    position.X = testLocation.x * CellSize;
+                                    position.Y = testLocation.y * CellSize;
+                                    sceneNode2D.entity.setPosition(position);
+                                }
+                                else
+                                {
+                                    if (sceneNode2D.children == null)
+                                    {
+                                        Vector2f position2 = new Vector2f(0.0f, 0.0f);
+                                        Text textt = new Text("L", font);
+                                        textt.FillColor = Color.Red;
+                                        textt.CharacterSize = 20;
 
+                                        SceneNode2D sceneNode2D1 = new SceneNode2D();
+                                        Node2D node2D = new TextNode(textt);
+                                        node2D.setName("left" + testLocation.name);
+                                        sceneNode2D1.entity = node2D;
+                                        sceneNode2D1.name = testLocation.name;
+                                        position.X = testLocation.x * CellSize;
+                                        position.Y = testLocation.y * CellSize;
+                                        sceneNode2D1.entity.setPosition(position);
+
+                                        sceneNode2D.children = new List<SceneNode2D>();
+                                        sceneNode2D.children.Add(sceneNode2D1);
+                                    }
+                                }
                             }
                         }
                         else if (ptr.y == y + 1)
@@ -518,6 +628,7 @@ namespace ConsoleApp2
 
                                 sceneNode2D = new SceneNode2D();
                                 Node2D node2D = new TextNode(textt);
+                                node2D.setName("down" + testLocation.name);
                                 sceneNode2D.entity = node2D;
                                 sceneNode2D.name = testLocation.name;
                                 position.X = testLocation.x * CellSize;
@@ -529,9 +640,34 @@ namespace ConsoleApp2
                             }
                             else
                             {
-                                position.X = testLocation.x * CellSize;
-                                position.Y = testLocation.y * CellSize;
-                                sceneNode2D.entity.setPosition(position);
+                                if (sceneNode2D.entity.getName().Contains("down"))
+                                {
+                                    position.X = testLocation.x * CellSize;
+                                    position.Y = testLocation.y * CellSize;
+                                    sceneNode2D.entity.setPosition(position);
+                                }
+                                else
+                                {
+                                    if (sceneNode2D.children == null)
+                                    {
+                                        Vector2f position2 = new Vector2f(0.0f, 0.0f);
+                                        Text textt = new Text("D", font);
+                                        textt.FillColor = Color.Red;
+                                        textt.CharacterSize = 20;
+
+                                        SceneNode2D sceneNode2D1 = new SceneNode2D();
+                                        Node2D node2D = new TextNode(textt);
+                                        node2D.setName("down" + testLocation.name);
+                                        sceneNode2D1.entity = node2D;
+                                        sceneNode2D1.name = testLocation.name;
+                                        position.X = testLocation.x * CellSize;
+                                        position.Y = testLocation.y * CellSize;
+                                        sceneNode2D1.entity.setPosition(position);
+
+                                        sceneNode2D.children = new List<SceneNode2D>();
+                                        sceneNode2D.children.Add(sceneNode2D1);
+                                    }
+                                }
 
                             }
                         }
@@ -547,6 +683,7 @@ namespace ConsoleApp2
 
                                 sceneNode2D = new SceneNode2D();
                                 Node2D node2D = new TextNode(textt);
+                                node2D.setName("up" + testLocation.name);
                                 sceneNode2D.entity = node2D;
                                 sceneNode2D.name = testLocation.name;
                                 position.X = testLocation.x * CellSize;
@@ -558,11 +695,36 @@ namespace ConsoleApp2
                             }
                             else
                             {
-                                position.X = testLocation.x * CellSize;
-                                position.Y = testLocation.y * CellSize;
-                                sceneNode2D.entity.setPosition(position);
 
-                            }                           
+                                if (sceneNode2D.entity.getName().Contains("up"))
+                                {
+                                    position.X = testLocation.x * CellSize;
+                                    position.Y = testLocation.y * CellSize;
+                                    sceneNode2D.entity.setPosition(position);
+                                }
+                                else
+                                {
+                                    if (sceneNode2D.children == null)
+                                    {
+                                        Vector2f position2 = new Vector2f(0.0f, 0.0f);
+                                        Text textt = new Text("U", font);
+                                        textt.FillColor = Color.Red;
+                                        textt.CharacterSize = 20;
+
+                                        SceneNode2D sceneNode2D1 = new SceneNode2D();
+                                        Node2D node2D = new TextNode(textt);
+                                        node2D.setName("up" + testLocation.name);
+                                        sceneNode2D1.entity = node2D;
+                                        sceneNode2D1.name = testLocation.name;
+                                        position.X = testLocation.x * CellSize;
+                                        position.Y = testLocation.y * CellSize;
+                                        sceneNode2D1.entity.setPosition(position);
+
+                                        sceneNode2D.children = new List<SceneNode2D>();
+                                        sceneNode2D.children.Add(sceneNode2D1);
+                                    }
+                                }
+                            }
                         }
                         else
                         {
@@ -668,9 +830,9 @@ namespace ConsoleApp2
                 new Location(4, 5), new Location(4, 6),
                 new Location(4, 7), new Location(4, 8),
                 new Location(5, 1), new Location(5, 2),
-                new Location(5, 3), new Location(5, 4),
+               // new Location(5, 3), new Location(5, 4),
                 new Location(5, 5), new Location(5, 6),
-                new Location(5, 7), new Location(5, 8),
+              //  new Location(5, 7), new Location(5, 8),
                 new Location(6, 2), new Location(6, 3),
                 new Location(6, 4), new Location(6, 5),
                 new Location(6, 6), new Location(6, 7),
