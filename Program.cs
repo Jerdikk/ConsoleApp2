@@ -482,7 +482,7 @@ namespace ConsoleApp2
                             {
                                 Vector2f position2 = new Vector2f(0.0f, 0.0f);
                                 RectangleShape rectangleStartStop = new RectangleShape(new Vector2f(CellSize, CellSize));
-                                rectangleStartStop.FillColor = Color.Red;
+                                rectangleStartStop.FillColor = Color.White;
 
                                 sceneNode2D = new SceneNode2D();
                                 Node2D node2D = new RectangleNode(rectangleStartStop);
@@ -510,7 +510,8 @@ namespace ConsoleApp2
 
                             //textt.Draw(renderTexture, renderStates);
                         }
-                        else if (ptr.x == x + 1)
+
+                        if (ptr.x == x + 1)
                         {
                             // Console.Write("R ");
                             SceneNode2D sceneNode2D = scene.GetSceneNode(testLocation.name);
