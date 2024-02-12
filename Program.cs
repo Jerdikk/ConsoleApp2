@@ -171,6 +171,7 @@ namespace ConsoleApp2
     {
         public Location start;
         public Location end;
+        public WeightedGraph<Location> graph;
 
         public Dictionary<Location, Location> cameFrom
             = new Dictionary<Location, Location>();
@@ -185,10 +186,15 @@ namespace ConsoleApp2
             //return (a.x - b.x)* (a.x - b.x) + (a.y - b.y)* (a.y - b.y);
         }
 
-        public AStarSearch(WeightedGraph<Location> graph, Location start, Location goal)
+        public AStarSearch()
         {
-            this.start = start;
-            this.end = goal;
+        }
+
+        public void FindPath()//WeightedGraph<Location> graph, Location start, Location goal)
+        {
+            //this.start = start;
+            Location goal = this.end;
+            //this.end = goal;
             var frontier = new PriorityQueue<Location>();
             frontier.Enqueue(start, 0);
 
@@ -841,9 +847,13 @@ namespace ConsoleApp2
             };
 
             // Выполнение A*
-            var astar = new AStarSearch(grid, new Location(1, 4),
-                                        new Location(8, 5));
+            AStarSearch astar = new AStarSearch();
 
+            astar.start = new Location(1, 4);
+            astar.end = new Location(8, 5);
+            astar.graph = grid;
+
+            astar.FindPath();
 
             sprite = new Sprite();
 
