@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ConsoleApp2
+namespace ConsoleApp2.AStar
 {
     // Для A* нужен только WeightedGraph и тип точек L, и карта *не*
     // обязана быть сеткой. Однако в коде примера я использую сетку.

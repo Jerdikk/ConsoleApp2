@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ConsoleApp2
+namespace ConsoleApp2.AStar
 {
     /* Примечание о типах: в предыдущей статье в коде Python я использовал
      * для стоимости, эвристики и приоритетов просто числа. В коде C++
@@ -37,7 +37,7 @@ namespace ConsoleApp2
         public void FindPath()//WeightedGraph<Location> graph, Location start, Location goal)
         {
             //this.start = start;
-            Location goal = this.end;
+            Location goal = end;
             //this.end = goal;
             var frontier = new PriorityQueue<Location>();
             frontier.Enqueue(start, 0);

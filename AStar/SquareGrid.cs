@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ConsoleApp2
+namespace ConsoleApp2.AStar
 {
     public class SquareGrid : WeightedGraph<Location>
     {

@@ -1,21 +1,21 @@
 ﻿using SFML.Graphics;
 using SFML.System;
 
-namespace ConsoleApp2
+namespace ConsoleApp2.Nodes
 {
-    public class RectangleNode : Node2D
+    public class TextNode : Node2D
     {
-        RectangleShape shape;
+        Text text1;
         string name;
 
-        public RectangleNode(RectangleShape shape)
+        public TextNode(Text text1)
         {
-            this.shape = shape;
+            this.text1 = text1;
         }
 
         public void Draw(RenderTarget target, RenderStates states)
         {
-            shape.Draw(target, states);
+            text1?.Draw(target, states);
         }
 
         public string getName()
@@ -25,7 +25,7 @@ namespace ConsoleApp2
 
         public Vector2f getPosition()
         {
-            return shape.Position;
+            return text1.Position;
         }
 
         public void setName(string name)
@@ -35,7 +35,7 @@ namespace ConsoleApp2
 
         public void setPosition(Vector2f position)
         {
-            shape.Position = position;
+            text1.Position = position;
         }
     }
 }

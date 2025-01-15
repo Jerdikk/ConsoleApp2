@@ -1,7 +1,7 @@
 ﻿using SFML.Graphics;
 using System.Collections.Generic;
 
-namespace ConsoleApp2
+namespace ConsoleApp2.Nodes
 {
     public class SceneNode2D : Drawable
     {
@@ -30,7 +30,7 @@ namespace ConsoleApp2
         public void Draw(RenderTarget target, RenderStates states)
         {
             entity.Draw(target, states);
-            if ((children != null) && (children.Count > 0))
+            if (children != null && children.Count > 0)
             {
                 foreach (var next in children)
                 {

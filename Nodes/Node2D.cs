@@ -1,7 +1,7 @@
 ﻿using SFML.Graphics;
 using SFML.System;
 
-namespace ConsoleApp2
+namespace ConsoleApp2.Nodes
 {
     public interface Node2D : Drawable
     {
