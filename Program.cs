@@ -10,8 +10,8 @@ namespace ConsoleApp2
     class Program
     {
         static float CellSize = 32.0f;
-        static Scene2D scene;
-        static Font font;
+        static Scene2D? scene;
+        static Font? font;
         static void Main(string[] args)
         {
             scene = new Scene2D();
@@ -29,7 +29,7 @@ namespace ConsoleApp2
                     for (var x = 0; x < 10; x++)
                     {
                         Location testLocation = new Location(x, y);
-                        Location ptr = testLocation;
+                        Location? ptr = testLocation;
                         if (!astar.cameFrom.TryGetValue(testLocation, out ptr))
                         {
                             ptr = testLocation;
@@ -37,7 +37,7 @@ namespace ConsoleApp2
 
                         if (grid.walls.Contains(testLocation))
                         {
-                            SceneNode2D sceneNode2D = scene.GetSceneNode(testLocation.name);
+                            SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
                             if (sceneNode2D == null)
                             {
                                 Vector2f position1 = new Vector2f(0.0f, 0.0f);
@@ -53,7 +53,7 @@ namespace ConsoleApp2
                                 position.Y = testLocation.y * CellSize;
                                 sceneNode2D.entity.setPosition(position);
 
-                                scene.Nodes.Add(sceneNode2D);
+                                scene?.Nodes.Add(sceneNode2D);
                             }
                             else
                             {
@@ -67,7 +67,7 @@ namespace ConsoleApp2
                         }
                         else if (grid.forests.Contains(testLocation))
                         {
-                            SceneNode2D sceneNode2D = scene.GetSceneNode(testLocation.name);
+                            SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
                             if (sceneNode2D == null)
                             {
                                 Vector2f position1 = new Vector2f(0.0f, 0.0f);
@@ -83,7 +83,7 @@ namespace ConsoleApp2
                                 position.Y = testLocation.y * CellSize;
                                 sceneNode2D.entity.setPosition(position);
 
-                                scene.Nodes.Add(sceneNode2D);
+                                scene?.Nodes.Add(sceneNode2D);
                             }
                             else
                             {
@@ -98,7 +98,7 @@ namespace ConsoleApp2
                         if ((astar.start == testLocation) || (astar.end == testLocation))
                         {
 
-                            SceneNode2D sceneNode2D = scene.GetSceneNode(testLocation.name);
+                            SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
                             if (sceneNode2D == null)
                             {
                                 Vector2f position2 = new Vector2f(0.0f, 0.0f);
@@ -117,7 +117,7 @@ namespace ConsoleApp2
                                 position.Y = testLocation.y * CellSize;
                                 sceneNode2D.entity.setPosition(position);
 
-                                scene.Nodes.Add(sceneNode2D);
+                                scene?.Nodes.Add(sceneNode2D);
 
                             }
                             else
@@ -135,7 +135,7 @@ namespace ConsoleApp2
                         if (ptr.x == x + 1)
                         {
                             // Console.Write("R ");
-                            SceneNode2D sceneNode2D = scene.GetSceneNode(testLocation.name);
+                            SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
                             if (sceneNode2D == null)
                             {
                                 Vector2f position2 = new Vector2f(0.0f, 0.0f);
@@ -152,7 +152,7 @@ namespace ConsoleApp2
                                 position.Y = testLocation.y * CellSize;
                                 sceneNode2D.entity.setPosition(position);
 
-                                scene.Nodes.Add(sceneNode2D);
+                                scene?.Nodes.Add(sceneNode2D);
 
                             }
                             else
@@ -191,7 +191,7 @@ namespace ConsoleApp2
                         else if (ptr.x == x - 1)
                         {
                             //   Console.Write("L ");
-                            SceneNode2D sceneNode2D = scene.GetSceneNode(testLocation.name);
+                            SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
                             if (sceneNode2D == null)
                             {
                                 Vector2f position2 = new Vector2f(0.0f, 0.0f);
@@ -208,7 +208,7 @@ namespace ConsoleApp2
                                 position.Y = testLocation.y * CellSize;
                                 sceneNode2D.entity.setPosition(position);
 
-                                scene.Nodes.Add(sceneNode2D);
+                                scene?.Nodes.Add(sceneNode2D);
 
                             }
                             else
@@ -246,7 +246,7 @@ namespace ConsoleApp2
                         else if (ptr.y == y + 1)
                         {
                             //  Console.Write("D ");
-                            SceneNode2D sceneNode2D = scene.GetSceneNode(testLocation.name);
+                            SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
                             if (sceneNode2D == null)
                             {
                                 Vector2f position2 = new Vector2f(0.0f, 0.0f);
@@ -263,7 +263,7 @@ namespace ConsoleApp2
                                 position.Y = testLocation.y * CellSize;
                                 sceneNode2D.entity.setPosition(position);
 
-                                scene.Nodes.Add(sceneNode2D);
+                                scene?.Nodes.Add(sceneNode2D);
 
                             }
                             else
@@ -301,7 +301,7 @@ namespace ConsoleApp2
                         }
                         else if (ptr.y == y - 1)
                         {
-                            SceneNode2D sceneNode2D = scene.GetSceneNode(testLocation.name);
+                            SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
                             if (sceneNode2D == null)
                             {
                                 Vector2f position2 = new Vector2f(0.0f, 0.0f);
@@ -318,7 +318,7 @@ namespace ConsoleApp2
                                 position.Y = testLocation.y * CellSize;
                                 sceneNode2D.entity.setPosition(position);
 
-                                scene.Nodes.Add(sceneNode2D);
+                                scene?.Nodes.Add(sceneNode2D);
 
                             }
                             else
@@ -356,7 +356,7 @@ namespace ConsoleApp2
                         }
                         else
                         {
-                            SceneNode2D sceneNode2D = scene.GetSceneNode(testLocation.name);
+                            SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
                             if (sceneNode2D == null)
                             {
                                 Vector2f position2 = new Vector2f(0.0f, 0.0f);
@@ -372,7 +372,7 @@ namespace ConsoleApp2
                                 position.Y = testLocation.y * CellSize;
                                 sceneNode2D.entity.setPosition(position);
 
-                                scene.Nodes.Add(sceneNode2D);
+                                scene?.Nodes.Add(sceneNode2D);
 
                             }
                             else
@@ -404,10 +404,10 @@ namespace ConsoleApp2
             window.KeyPressed +=
                 (sender, e) =>
                 {
-                    Window window = (Window)sender;
+                    Window? window = sender as Window;
                     if (e.Code == Keyboard.Key.Escape)
                     {
-                        window.Close();
+                        window?.Close();
                     }
                 };
 

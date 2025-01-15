@@ -18,7 +18,7 @@ namespace ConsoleApp2
             name = x.ToString() + "_" + y.ToString();
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is Location location &&
                    x == location.x &&
