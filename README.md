@@ -2,4 +2,5 @@
 
 Csharp SFML A star
 
-https://github.com/Jerdikk/ConsoleApp2/blob/master/1.jpg
+![1](https://github.com/user-attachments/assets/0ffbefc0-a449-4baa-9b94-600653a8dfb2)
+
