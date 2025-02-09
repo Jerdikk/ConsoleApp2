@@ -115,23 +115,18 @@ namespace ConsoleApp2
                             }
 
                         }
-
-                       /* if ((astar.start == testLocation) || (astar.end == testLocation))
+                        else 
                         {
-
                             SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
                             if (sceneNode2D == null)
                             {
                                 Vector2f position2 = new Vector2f(0.0f, 0.0f);
-                                RectangleShape rectangleStartStop = new RectangleShape(new Vector2f(CellSize, CellSize));
-                                rectangleStartStop.FillColor = Color.White;
+                                RectangleShape rectangleShapeBlue = new RectangleShape(new Vector2f(CellSize, CellSize));
+                                rectangleShapeBlue.FillColor = Color.Blue;
 
                                 sceneNode2D = new SceneNode2D();
-                                Node2D node2D = new RectangleNode(rectangleStartStop);
-                                if (astar.start == testLocation)
-                                    node2D.setName("start" + testLocation.name);
-                                else
-                                    node2D.setName("end" + testLocation.name);
+                                Node2D node2D = new RectangleNode(rectangleShapeBlue);
+                                node2D.setName("ground" + testLocation.name);
                                 sceneNode2D.entity = node2D;
                                 sceneNode2D.name = testLocation.name;
                                 position.X = testLocation.x * CellSize;
@@ -139,7 +134,6 @@ namespace ConsoleApp2
                                 sceneNode2D.entity.setPosition(position);
 
                                 scene?.Nodes.Add(sceneNode2D);
-
                             }
                             else
                             {
@@ -149,9 +143,44 @@ namespace ConsoleApp2
 
                             }
 
+                        }
 
-                            //textt.Draw(renderTexture, renderStates);
-                        }*/
+                        /* if ((astar.start == testLocation) || (astar.end == testLocation))
+                         {
+
+                             SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
+                             if (sceneNode2D == null)
+                             {
+                                 Vector2f position2 = new Vector2f(0.0f, 0.0f);
+                                 RectangleShape rectangleStartStop = new RectangleShape(new Vector2f(CellSize, CellSize));
+                                 rectangleStartStop.FillColor = Color.White;
+
+                                 sceneNode2D = new SceneNode2D();
+                                 Node2D node2D = new RectangleNode(rectangleStartStop);
+                                 if (astar.start == testLocation)
+                                     node2D.setName("start" + testLocation.name);
+                                 else
+                                     node2D.setName("end" + testLocation.name);
+                                 sceneNode2D.entity = node2D;
+                                 sceneNode2D.name = testLocation.name;
+                                 position.X = testLocation.x * CellSize;
+                                 position.Y = testLocation.y * CellSize;
+                                 sceneNode2D.entity.setPosition(position);
+
+                                 scene?.Nodes.Add(sceneNode2D);
+
+                             }
+                             else
+                             {
+                                 position.X = testLocation.x * CellSize;
+                                 position.Y = testLocation.y * CellSize;
+                                 sceneNode2D.entity.setPosition(position);
+
+                             }
+
+
+                             //textt.Draw(renderTexture, renderStates);
+                         }*/
 
                         if (isStart)
                         {
@@ -320,7 +349,7 @@ namespace ConsoleApp2
 
                             }
                         }
-                        else
+                    /*    else
                         {
                             SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
                             if (sceneNode2D == null)
@@ -358,6 +387,7 @@ namespace ConsoleApp2
                             //rectangleShapeBlue.Draw(renderTexture, renderStates);
                             //Console.Write("* ");
                         }
+                  */
                     }
                     // Console.WriteLine();
                 }
@@ -815,7 +845,7 @@ namespace ConsoleApp2
                 new Location(4, 5), new Location(4, 6),
                 new Location(4, 7), new Location(4, 8),
                 new Location(5, 1), new Location(5, 2),
-               // new Location(5, 3), new Location(5, 4),
+         //       new Location(5, 3), new Location(5, 4),
                 new Location(5, 5), new Location(5, 6),
               //  new Location(5, 7), new Location(5, 8),
                 new Location(6, 2), new Location(6, 3),
@@ -828,7 +858,7 @@ namespace ConsoleApp2
             // Выполнение A*
             AStarSearch astar = new AStarSearch();
 
-            astar.start = new Location(1, 4);
+            astar.start = new Location(1, 3);
             astar.end = new Location(8, 5);
             astar.graph = grid;
 

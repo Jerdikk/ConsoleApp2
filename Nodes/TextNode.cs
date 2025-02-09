@@ -15,6 +15,7 @@ namespace ConsoleApp2.Nodes
 
         public void Draw(RenderTarget target, RenderStates states)
         {
+          //  states.BlendMode = BlendMode.Add;
             text1?.Draw(target, states);
         }
 
