@@ -68,6 +68,9 @@ namespace ConsoleApp2.AStar
                     }
                 }
             }
+
+            int gg = 1;
+        
         }
     }
 }

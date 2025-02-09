@@ -22,6 +22,347 @@ namespace ConsoleApp2
             scene.Nodes = new List<SceneNode2D>();
 
 
+            static void DrawGrid1(SquareGrid grid, Location[] astar)
+            {
+                Vector2f position = new Vector2f(0.0f, 0.0f);
+                bool isStart = false;
+                bool isEnd = false;
+                bool isPath = false;
+
+                for (var y = 0; y < 10; y++)
+                {
+                    for (var x = 0; x < 10; x++)
+                    {
+                        isStart = false;
+                        isEnd = false;
+                        isPath = false;
+
+                        Location testLocation = new Location(x, y);
+                        Location? ptr = testLocation;
+                        if (astar[0]==testLocation)
+                        {
+                            isEnd = true;
+                        }
+                        if (astar[astar.Length-1] == testLocation)
+                        {
+                            isStart = true;
+                        }
+                        for (int uu=1; uu<astar.Length-1; uu++)
+                        {
+                            if (astar[uu]==testLocation)
+                            {
+                                isPath = true;
+                                break;
+                            }
+                        }    
+
+                        if (grid.walls.Contains(testLocation))
+                        {
+                            SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
+                            if (sceneNode2D == null)
+                            {
+                                Vector2f position1 = new Vector2f(0.0f, 0.0f);
+                                RectangleShape rectangleShapeWall = new RectangleShape(new Vector2f(CellSize, CellSize));
+                                rectangleShapeWall.FillColor = Color.Cyan;
+
+                                sceneNode2D = new SceneNode2D();
+                                Node2D node2D = new RectangleNode(rectangleShapeWall);
+                                node2D.setName("wall" + testLocation.name);
+                                sceneNode2D.entity = node2D;
+                                sceneNode2D.name = testLocation.name;
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                                scene?.Nodes.Add(sceneNode2D);
+                            }
+                            else
+                            {
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                            }
+                            // rectangleShapeWall.Draw(renderTexture, renderStates);
+                            //  Console.Write("##");
+                        }
+                        else if (grid.forests.Contains(testLocation))
+                        {
+                            SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
+                            if (sceneNode2D == null)
+                            {
+                                Vector2f position1 = new Vector2f(0.0f, 0.0f);
+                                RectangleShape rectangleShapeWall = new RectangleShape(new Vector2f(CellSize, CellSize));
+                                rectangleShapeWall.FillColor = Color.Green;
+
+                                sceneNode2D = new SceneNode2D();
+                                Node2D node2D = new RectangleNode(rectangleShapeWall);
+                                node2D.setName("forest" + testLocation.name);
+                                sceneNode2D.entity = node2D;
+                                sceneNode2D.name = testLocation.name;
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                                scene?.Nodes.Add(sceneNode2D);
+                            }
+                            else
+                            {
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                            }
+
+                        }
+
+                       /* if ((astar.start == testLocation) || (astar.end == testLocation))
+                        {
+
+                            SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
+                            if (sceneNode2D == null)
+                            {
+                                Vector2f position2 = new Vector2f(0.0f, 0.0f);
+                                RectangleShape rectangleStartStop = new RectangleShape(new Vector2f(CellSize, CellSize));
+                                rectangleStartStop.FillColor = Color.White;
+
+                                sceneNode2D = new SceneNode2D();
+                                Node2D node2D = new RectangleNode(rectangleStartStop);
+                                if (astar.start == testLocation)
+                                    node2D.setName("start" + testLocation.name);
+                                else
+                                    node2D.setName("end" + testLocation.name);
+                                sceneNode2D.entity = node2D;
+                                sceneNode2D.name = testLocation.name;
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                                scene?.Nodes.Add(sceneNode2D);
+
+                            }
+                            else
+                            {
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                            }
+
+
+                            //textt.Draw(renderTexture, renderStates);
+                        }*/
+
+                        if (isStart)
+                        {
+                            // Console.Write("R ");
+                            SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
+                            if (sceneNode2D == null)
+                            {
+                                Vector2f position2 = new Vector2f(0.0f, 0.0f);
+                                Text textt = new Text("S", font);
+                                textt.FillColor = Color.Red;
+                                textt.CharacterSize = 20;
+
+                                sceneNode2D = new SceneNode2D();
+                                Node2D node2D = new TextNode(textt);
+                                node2D.setName("start" + testLocation.name);
+                                sceneNode2D.entity = node2D;
+                                sceneNode2D.name = testLocation.name;
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                                scene?.Nodes.Add(sceneNode2D);
+
+                            }
+                            else
+                            {
+                                if (sceneNode2D.entity.getName().Contains("start"))
+                                {
+                                    position.X = testLocation.x * CellSize;
+                                    position.Y = testLocation.y * CellSize;
+                                    sceneNode2D.entity.setPosition(position);
+                                }
+                                else
+                                {
+                                    if (sceneNode2D.children == null)
+                                    {
+                                        Vector2f position2 = new Vector2f(0.0f, 0.0f);
+                                        Text textt = new Text("S", font);
+                                        textt.FillColor = Color.Red;
+                                        textt.CharacterSize = 20;
+
+                                        SceneNode2D sceneNode2D1 = new SceneNode2D();
+                                        Node2D node2D = new TextNode(textt);
+                                        node2D.setName("start" + testLocation.name);
+                                        sceneNode2D1.entity = node2D;
+                                        sceneNode2D1.name = testLocation.name;
+                                        position.X = testLocation.x * CellSize;
+                                        position.Y = testLocation.y * CellSize;
+                                        sceneNode2D1.entity.setPosition(position);
+
+                                        sceneNode2D.children = new List<SceneNode2D>();
+                                        sceneNode2D.children.Add(sceneNode2D1);
+                                    }
+                                }
+
+                            }
+                        }
+                        else if (isEnd)
+                        {
+                            //   Console.Write("L ");
+                            SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
+                            if (sceneNode2D == null)
+                            {
+                                Vector2f position2 = new Vector2f(0.0f, 0.0f);
+                                Text textt = new Text("E", font);
+                                textt.FillColor = Color.Red;
+                                textt.CharacterSize = 20;
+
+                                sceneNode2D = new SceneNode2D();
+                                Node2D node2D = new TextNode(textt);
+                                node2D.setName("end" + testLocation.name);
+                                sceneNode2D.entity = node2D;
+                                sceneNode2D.name = testLocation.name;
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                                scene?.Nodes.Add(sceneNode2D);
+
+                            }
+                            else
+                            {
+                                if (sceneNode2D.entity.getName().Contains("end"))
+                                {
+                                    position.X = testLocation.x * CellSize;
+                                    position.Y = testLocation.y * CellSize;
+                                    sceneNode2D.entity.setPosition(position);
+                                }
+                                else
+                                {
+                                    if (sceneNode2D.children == null)
+                                    {
+                                        Vector2f position2 = new Vector2f(0.0f, 0.0f);
+                                        Text textt = new Text("E", font);
+                                        textt.FillColor = Color.Red;
+                                        textt.CharacterSize = 20;
+
+                                        SceneNode2D sceneNode2D1 = new SceneNode2D();
+                                        Node2D node2D = new TextNode(textt);
+                                        node2D.setName("end" + testLocation.name);
+                                        sceneNode2D1.entity = node2D;
+                                        sceneNode2D1.name = testLocation.name;
+                                        position.X = testLocation.x * CellSize;
+                                        position.Y = testLocation.y * CellSize;
+                                        sceneNode2D1.entity.setPosition(position);
+
+                                        sceneNode2D.children = new List<SceneNode2D>();
+                                        sceneNode2D.children.Add(sceneNode2D1);
+                                    }
+                                }
+                            }
+                        }
+                        else if (isPath)
+                        {
+                            //  Console.Write("D ");
+                            SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
+                            if (sceneNode2D == null)
+                            {
+                                Vector2f position2 = new Vector2f(0.0f, 0.0f);
+                                Text textt = new Text("*", font);
+                                textt.FillColor = Color.Red;
+                                textt.CharacterSize = 20;
+
+                                sceneNode2D = new SceneNode2D();
+                                Node2D node2D = new TextNode(textt);
+                                node2D.setName("path" + testLocation.name);
+                                sceneNode2D.entity = node2D;
+                                sceneNode2D.name = testLocation.name;
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                                scene?.Nodes.Add(sceneNode2D);
+
+                            }
+                            else
+                            {
+                                if (sceneNode2D.entity.getName().Contains("path"))
+                                {
+                                    position.X = testLocation.x * CellSize;
+                                    position.Y = testLocation.y * CellSize;
+                                    sceneNode2D.entity.setPosition(position);
+                                }
+                                else
+                                {
+                                    if (sceneNode2D.children == null)
+                                    {
+                                        Vector2f position2 = new Vector2f(0.0f, 0.0f);
+                                        Text textt = new Text("*", font);
+                                        textt.FillColor = Color.Red;
+                                        textt.CharacterSize = 20;
+
+                                        SceneNode2D sceneNode2D1 = new SceneNode2D();
+                                        Node2D node2D = new TextNode(textt);
+                                        node2D.setName("path" + testLocation.name);
+                                        sceneNode2D1.entity = node2D;
+                                        sceneNode2D1.name = testLocation.name;
+                                        position.X = testLocation.x * CellSize;
+                                        position.Y = testLocation.y * CellSize;
+                                        sceneNode2D1.entity.setPosition(position);
+
+                                        sceneNode2D.children = new List<SceneNode2D>();
+                                        sceneNode2D.children.Add(sceneNode2D1);
+                                    }
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
+                            if (sceneNode2D == null)
+                            {
+                                Vector2f position2 = new Vector2f(0.0f, 0.0f);
+                                RectangleShape rectangleShapeBlue = new RectangleShape(new Vector2f(CellSize, CellSize));
+                                rectangleShapeBlue.FillColor = Color.Blue;
+
+
+                                sceneNode2D = new SceneNode2D();
+                                Node2D node2D = new RectangleNode(rectangleShapeBlue);
+                                sceneNode2D.entity = node2D;
+                                sceneNode2D.name = testLocation.name;
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                                scene?.Nodes.Add(sceneNode2D);
+
+                            }
+                            else
+                            {
+                                position.X = testLocation.x * CellSize;
+                                position.Y = testLocation.y * CellSize;
+                                sceneNode2D.entity.setPosition(position);
+
+                            }
+                            // RectangleShape rectangleShapeBlue = new RectangleShape(new Vector2f(CellSize, CellSize));
+                            //   rectangleShapeBlue.FillColor = Color.Blue;
+
+
+                            // position.X = testLocation.x * CellSize;
+                            // position.Y = testLocation.y * CellSize;
+                            //  rectangleShapeBlue.Position = position;
+                            //rectangleShapeBlue.Draw(renderTexture, renderStates);
+                            //Console.Write("* ");
+                        }
+                    }
+                    // Console.WriteLine();
+                }
+            }
+
             static void DrawGrid(SquareGrid grid, AStarSearch astar)
             {
                 Vector2f position = new Vector2f(0.0f, 0.0f);
@@ -493,6 +834,30 @@ namespace ConsoleApp2
 
             astar.FindPath();
 
+            Queue<Location> queue = new Queue<Location>();
+
+            Location testAstar = astar.end;
+
+            try
+            {
+                while (testAstar != astar.start)
+                {
+                    Location testAstar1;
+                    queue.Enqueue(testAstar);
+                    bool t1 = astar.cameFrom.TryGetValue(testAstar, out testAstar1);
+                    if (t1)
+                    {
+                        testAstar = testAstar1;
+                    }
+
+                }
+                queue.Enqueue(astar.start);
+            }
+            catch
+            {
+                int yyy = 1;
+            }
+
             sprite = new Sprite();
 
             while (window.IsOpen)
@@ -511,10 +876,12 @@ namespace ConsoleApp2
                     continue;
                 }
 
+                Location[] t2 = queue.ToArray();
 
                 renderTexture.Clear();
 
-                DrawGrid(grid, astar);
+                //DrawGrid(grid, astar);
+                DrawGrid1(grid, t2);
 
                 scene.Draw(renderTexture, renderStates);
 
