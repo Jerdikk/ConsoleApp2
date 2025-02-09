@@ -421,7 +421,21 @@ namespace ConsoleApp2
             float xOffset = text.GetLocalBounds().Left;
             float yOffset = text.GetLocalBounds().Top;
             text.Origin = new Vector2f(textWidth / 2f + xOffset, textHeight / 2f + yOffset);
-            text.Position = new Vector2f(window.Size.X / 2f, window.Size.Y / 2f);
+            text.Position = new Vector2f(window.Size.X / 2f, window.Size.Y / 2f+200.0f);
+
+            Vector2f position1 = new Vector2f(window.Size.X / 2f, window.Size.Y / 2f + 200.0f);
+
+            SceneNode2D sceneNode2D = new SceneNode2D();
+            Node2D node2D = new TextNode(text);
+            node2D.setName("peace1");
+            sceneNode2D.entity = node2D;
+            sceneNode2D.name = "peace11";
+            sceneNode2D.entity.setPosition(position1);
+
+            scene?.Nodes.Add(sceneNode2D);
+
+
+
 
             RenderTexture renderTexture = new RenderTexture(800, 600);
 
@@ -514,7 +528,7 @@ namespace ConsoleApp2
                 //window.Clear();
                 //window.Draw(rectangleShapeBlue);
                 // text.Rotation = angle;
-                // window.Draw(text);
+               // window.Draw(text);
 
                 window.Draw(sprite);
                 window.Display();
