@@ -6,6 +6,8 @@ namespace ConsoleApp2.AStar
     // обязана быть сеткой. Однако в коде примера я использую сетку.
     public interface WeightedGraph<L>
     {
+        public int GetWidth();
+        public int GetHeight();
         double Cost(Location a, Location b);
         IEnumerable<Location> Neighbors(Location id);
     }

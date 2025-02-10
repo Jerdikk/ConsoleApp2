@@ -51,24 +51,26 @@ namespace ConsoleApp2
 
                         Location testLocation = new Location(x, y);
                         Location? ptr = testLocation;
-                        if (astar[0] == testLocation)
+                        if (astar.Length > 2)
                         {
-                            isEnd = true;
-                        }
-                        if (astar[astar.Length - 1] == testLocation)
-                        {
-                            isStart = true;
-                        }
-                        for (int uu = 1; uu < astar.Length - 1; uu++)
-                        {
-                            if (astar[uu] == testLocation)
+                            if (astar[0] == testLocation)
                             {
-                                isPath = true;
-                                break;
+                                isEnd = true;
+                            }
+                            if (astar[astar.Length - 1] == testLocation)
+                            {
+                                isStart = true;
+                            }
+                            for (int uu = 1; uu < astar.Length - 1; uu++)
+                            {
+                                if (astar[uu] == testLocation)
+                                {
+                                    isPath = true;
+                                    break;
+                                }
                             }
                         }
-
-                        if (grid.walls[testLocation.x,testLocation.y]>0)
+                        if (grid.walls[testLocation.x, testLocation.y] > 0)
                         {
                             SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
                             if (sceneNode2D == null)
@@ -98,7 +100,7 @@ namespace ConsoleApp2
                             // rectangleShapeWall.Draw(renderTexture, renderStates);
                             //  Console.Write("##");
                         }
-                        else if (grid.forests[testLocation.x,testLocation.y]>0)
+                        else if (grid.forests[testLocation.x, testLocation.y] > 0)
                         {
                             SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
                             if (sceneNode2D == null)
@@ -420,7 +422,7 @@ namespace ConsoleApp2
                             ptr = testLocation;
                         }
 
-                        if (grid.walls[testLocation.x,testLocation.y]>0)
+                        if (grid.walls[testLocation.x, testLocation.y] > 0)
                         {
                             SceneNode2D? sceneNode2D = scene?.GetSceneNode(testLocation.name);
                             if (sceneNode2D == null)
@@ -831,7 +833,7 @@ namespace ConsoleApp2
 
             for (var x = 3; x < 5; x++)
             {
-                for (var y = 3; y < 7; y++)
+                for (var y = 1; y < 9; y++)
                 {
                     grid.walls[x, y] = 1;
                 }
@@ -897,30 +899,32 @@ namespace ConsoleApp2
             astar.end = new Location(8, 5);
             astar.graph = grid;
 
-            astar.FindPath();
-
             Queue<Location> queue = new Queue<Location>();
-
-            Location testAstar = astar.end;
-
-            try
+            if (astar.FindPath())
             {
-                while (testAstar != astar.start)
+                
+
+                Location testAstar = astar.end;
+
+                try
                 {
-                    Location testAstar1;
-                    queue.Enqueue(testAstar);
-                    bool t1 = astar.cameFrom.TryGetValue(testAstar, out testAstar1);
-                    if (t1)
+                    while (testAstar != astar.start)
                     {
-                        testAstar = testAstar1;
-                    }
+                        Location testAstar1;
+                        queue.Enqueue(testAstar);
+                        bool t1 = astar.cameFrom.TryGetValue(testAstar, out testAstar1);
+                        if (t1)
+                        {
+                            testAstar = testAstar1;
+                        }
 
+                    }
+                    queue.Enqueue(astar.start);
                 }
-                queue.Enqueue(astar.start);
-            }
-            catch
-            {
-                int yyy = 1;
+                catch
+                {
+                    int yyy = 1;
+                }
             }
 
             sprite = new Sprite();
@@ -946,6 +950,7 @@ namespace ConsoleApp2
                 renderTexture.Clear();
 
                 //DrawGrid(grid, astar);
+                
                 DrawGrid1(grid, t2);
 
                 Vector2i tempMousePos = map.GetCursorPositionOnMap(mouse.mouseX, mouse.mouseY);

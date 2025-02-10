@@ -53,5 +53,15 @@ namespace ConsoleApp2.AStar
                 }
             }
         }
+
+        public int GetWidth()
+        {
+            return width;
+        }
+
+        public int GetHeight()
+        {
+            return height;
+        }
     }
 }

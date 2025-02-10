@@ -34,8 +34,9 @@ namespace ConsoleApp2.AStar
         {
         }
 
-        public void FindPath()//WeightedGraph<Location> graph, Location start, Location goal)
+        public bool FindPath()//WeightedGraph<Location> graph, Location start, Location goal)
         {
+            bool found = false;
             //this.start = start;
             Location goal = end;
             //this.end = goal;
@@ -45,12 +46,15 @@ namespace ConsoleApp2.AStar
             cameFrom[start] = start;
             costSoFar[start] = 0;
 
-            while (frontier.Count > 0)
+            long maxGraphLong = graph.GetWidth()*graph.GetHeight();
+
+            while ((frontier.Count > 0)&&(frontier.Count<maxGraphLong))
             {
                 var current = frontier.Dequeue();
 
                 if (current.Equals(goal))
                 {
+                    found = true;
                     break;
                 }
 
@@ -69,7 +73,7 @@ namespace ConsoleApp2.AStar
                 }
             }
 
-            int gg = 1;
+            return found;
         
         }
     }
