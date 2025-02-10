@@ -8,9 +8,9 @@ namespace ConsoleApp2
 {
     public class WMap
     {
-        Image image1;
+        Image mapTileImage;
         Texture texture1;
-        Sprite sprite1;
+        Sprite mapSprite;
 
         RenderTexture rTexture;
 
@@ -27,11 +27,11 @@ namespace ConsoleApp2
 
         public WMap(uint width, uint height)
         {
-            image1 = new Image("NEW_DARK.BPX1.jpg");
+            mapTileImage = new Image("NEW_DARK.BPX1.jpg");
             LoadMap("map13h.mpf");
-            sprite1 = new Sprite();
-            texture1 = new Texture(image1);
-            sprite1.Texture = texture1;
+            mapSprite = new Sprite();
+            texture1 = new Texture(mapTileImage);
+            mapSprite.Texture = texture1;
             rTexture = new RenderTexture(width, height);
             TileMapWindowsWidth = (int)(rTexture.Texture.Size.X / 32);
             TileMapWindowsHeight = (int)(rTexture.Texture.Size.Y / 32);
@@ -99,9 +99,9 @@ namespace ConsoleApp2
                         {
                             NumTile = TileMap[i + X, j + Y];
                             r2.Top = NumTile * 32;// +j * 32 * numtilesx;
-                            sprite1.TextureRect = r2;
-                            sprite1.Position = new Vector2f(0 + i * 32, 0 + j * 32);
-                            rTexture.Draw(sprite1);
+                            mapSprite.TextureRect = r2;
+                            mapSprite.Position = new Vector2f(0 + i * 32, 0 + j * 32);
+                            rTexture.Draw(mapSprite);
                         }
                         catch { }
                     }

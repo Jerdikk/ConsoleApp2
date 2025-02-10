@@ -17,8 +17,8 @@ namespace ConsoleApp2.AStar
         };
 
         public int width, height;
-        public HashSet<Location> walls = new HashSet<Location>();
-        public HashSet<Location> forests = new HashSet<Location>();
+        public int[,] walls;
+        public int[,] forests;
 
         public SquareGrid(int width, int height)
         {
@@ -34,12 +34,12 @@ namespace ConsoleApp2.AStar
 
         public bool Passable(Location id)
         {
-            return !walls.Contains(id);
+            return walls[id.x, id.y] == 0;
         }
 
         public double Cost(Location a, Location b)
         {
-            return forests.Contains(b) ? 5 : 1;
+            return forests[b.x, b.y] > 0 ? 5 : 1;
         }
 
         public IEnumerable<Location> Neighbors(Location id)
