@@ -3,6 +3,7 @@ using ConsoleApp2.Nodes;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -14,8 +15,19 @@ namespace ConsoleApp2
         static float CellSize = 32.0f;
         static Scene2D? scene;
         static Font? font;
+        static WMap map;
+        static WMouse mouse;
         static void Main(string[] args)
         {
+            uint w = 800;
+            uint h = 600;
+            uint t = 0;
+            uint l = 0;
+            mouse = new WMouse();
+
+            map = new WMap(w - l, h - t);
+
+
             scene = new Scene2D();
             scene.name = "Main";
 
@@ -774,15 +786,9 @@ namespace ConsoleApp2
             RenderWindow window = new RenderWindow(mode, "SFML.NET");
 
             window.Closed += (obj, e) => { window.Close(); };
-            window.KeyPressed +=
-                (sender, e) =>
-                {
-                    Window? window = sender as Window;
-                    if (e.Code == Keyboard.Key.Escape)
-                    {
-                        window?.Close();
-                    }
-                };
+            window.KeyPressed += KeyPressed;
+            window.MouseButtonPressed += Window_MouseButtonPressed;
+            window.MouseMoved += Window_MouseMoved;
 
             font = new Font("C:/Windows/Fonts/arial.ttf");
             Text text = new Text("Приветмир!", font);
@@ -938,6 +944,41 @@ namespace ConsoleApp2
             sprite.Dispose();
             text.Dispose();
             clock.Dispose();
+        }
+
+        private static void Window_MouseMoved(object? sender, MouseMoveEventArgs e)
+        {
+            mouse.mouseX = e.X; mouse.mouseY = e.Y;
+        }
+
+        private static void Window_MouseButtonPressed(object? sender, MouseButtonEventArgs e)
+        {
+         //   throw new NotImplementedException();
+        }
+
+        private static void KeyPressed(object? sender, KeyEventArgs e)
+        {
+            Window window = (Window)sender;
+            if (e.Code == Keyboard.Key.Escape)
+            {
+                window.Close();
+            }
+            if (e.Code == Keyboard.Key.Up)
+            {
+                map.MapUp(-1);
+            }
+            if (e.Code == Keyboard.Key.Down)
+            {
+                map.MapUp(1);
+            }
+            if (e.Code == Keyboard.Key.Left)
+            {
+                map.MapLeft(-1);
+            }
+            if (e.Code == Keyboard.Key.Right)
+            {
+                map.MapLeft(1);
+            }
         }
     }
 }
